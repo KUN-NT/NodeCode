@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 module.exports = {
     init: () => {
         //连接数据库
-        mongoose.connect('mongodb://127.0.0.1:27017/dumall', {
+        mongoose.connect('mongodb://kun:kun@119.45.21.130:27017/dumall', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
