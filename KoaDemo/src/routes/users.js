@@ -121,7 +121,7 @@ router.post("/cartEdit", async function(ctx) {
 router.post("/editCheckAll", async function(ctx) {
     let userId = ctx.cookies.get('userId'),
         checkAll = ctx.request.body.checkAll ? '1' : '0';
-    let user = User.findOne({ userId: userId });
+    let user = await User.findOne({ userId: userId });
     if (user) {
         user.cartList.forEach((item) => {
             item.checked = checkAll;
