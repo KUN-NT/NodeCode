@@ -1,0 +1,19 @@
+{
+  "name": "electron_app",
+  "version": "1.0.0",
+  "description": "electron demo",
+  "main": "./src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron",
+    "electron_demo"
+  ],
+  "author": "kun",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^9.0.5"
+  }
+}
