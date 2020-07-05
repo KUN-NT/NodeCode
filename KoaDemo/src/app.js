@@ -10,6 +10,10 @@ const Json = require('koa-json');
 const static = require('koa-static');
 const views = require('koa-views');
 const bodyparser = require('koa-bodyparser');
+const db = require('./config/db');
+const users = require('./routes/users');
+const goods = require('./routes/goods');
+const utils = require('./utils/utils');
 
 //创建Koa实例
 const app = new Koa();
@@ -50,6 +54,25 @@ app.use(views(__dirname + '/views'), {
 //应用于Post请求
 app.use(bodyparser());
 
+//初始化数据库配置
+db.init();
+
+//前端登录拦截
+app.use(async(ctx, next) => {
+    if (ctx.cookies.get('userId')) {
+        await next();
+    } else {
+        if (ctx.request.url == '/api/users/checkLogin' ||
+            ctx.request.url == '/api/users/login' ||
+            ctx.request.url == '/api/users/loginout' ||
+            ctx.request.url.indexOf('/goods/list') > -1) {
+            await next();
+        } else {
+            ctx.body = utils.handleFail('当前未登录', 10008);
+        }
+    }
+})
+
 //设置路由
 router.get('/test', async(ctx) => {
     ctx.body = 'Get /api/get';
@@ -60,6 +83,8 @@ router.get('/html', async(ctx) => {
     });
 });
 
+router.use('/users', users.routes(), users.allowedMethods());
+router.use('/goods', goods.routes(), goods.allowedMethods());
 //注册路由中间件
 app.use(router.routes());
 
